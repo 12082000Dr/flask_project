@@ -1,0 +1,19 @@
+<DOCHTML>
+    <html>
+    <head>
+        <title> Вывод данных </title>
+    </head>
+    <body>
+    <h1> Вывод данных </h1>
+    {% block content %}
+    <form action="/output" method="post" class="form-contact">
+    <p><label>User ID: </label> <input type="text" name="userID" value="" requied />
+    <p><input type="submit" value="Отправить" />
+    </form>
+    {% endblock %}
+    {% for msg in get_flashed_messages() %}
+    <div class="flash">Сообщения: {{msg}}</div>
+    {% endfor %}
+    </body>
+    </html>
+</DOCHTML>

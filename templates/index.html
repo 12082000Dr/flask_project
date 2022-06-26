@@ -1,0 +1,15 @@
+<DOCHTML>
+    <html>
+    <head>
+        <title> Главная страница </title>
+    </head>
+    <body>
+    <h1> Главная страница </h1>
+    <ul>
+        {% for i in menu %}
+        <li><a href="{{ i.url }}"> {{ i.name }}</a></li>
+        {% endfor %}
+    </ul>
+    </body>
+    </html>
+</DOCHTML>

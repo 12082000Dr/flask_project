@@ -1,0 +1,21 @@
+<DOCHTML>
+    <html>
+    <head>
+        <title> Ввод данных </title>
+    </head>
+    <body>
+    <h1> Ввод данных </h1>
+    {% for msg in get_flashed_messages() %}
+    <div class="flash">{{msg}}</div>
+    {% endfor %}
+    {% block content %}
+    <form action="/input" method="post" class="form-contact">
+    <p><label>User ID: </label> <input type="text" name="userID" value="" requied />
+    <p><label>Сообщение:</label>
+    <p><textarea name="message" rows=7 cols=40></textarea>
+    <p><input type="submit" value="Отправить" />
+    </form>
+    {% endblock %}
+    </body>
+    </html>
+</DOCHTML>
