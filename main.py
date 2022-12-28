@@ -61,4 +61,5 @@ def user_output(userID):
         return "<h1>Нет такого пользователя или он не оставлял сообщений.</h1>"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=8080)
