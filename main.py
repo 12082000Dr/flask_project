@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect
 import sqlite3 as sq
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "giuewrgrt645tdhtr7rstwe4dsgdffh"
 
 menu = [{"name": "Внести данные", "url": "input"}, {"name": "Получить данные", "url": "output"}]
+gift = ['Боулинг', 'Кино', 'Кафе', 'Погулять', 'Каток']
 
 with sq.connect('io_data.db') as con:
     cur = con.cursor()
@@ -20,7 +21,13 @@ def main_page():
 @app.route("/input", methods=['POST', "GET"])
 def data_input():
     if request.method == "POST":
-        if len(request.form["userID"]) > 0 and len(request.form["message"]) > 0:
+        if request.form["userID"] == '31122022' and len(request.form["message"]) > 0:
+            gift.append(request.form["message"])
+            if len(gift) == 6:
+                flash('Заполни эту форму еще раз')
+            elif len(gift) == 7:
+                flash('Перейди по ссылке: http://localhost:8080/HappyNewYear')
+        elif len(request.form["userID"]) > 0 and len(request.form["message"]) > 0:
             with sq.connect("io_data.db") as con:
                 cur = con.cursor()
                 cur.execute(f"""INSERT INTO users VALUES("{request.form["userID"]}", "{request.form["message"]}")""")
@@ -28,7 +35,13 @@ def data_input():
         else:
             flash("Заполнены не все поля.")
 
-    return render_template("input.html")
+    return render_template("input.html", gift=gift)
+
+@app.route("/HappyNewYear", methods=['POST', "GET"])
+def happy_new_year():
+    if request.method == "GET":
+        return render_template("happyNY.html", gift=gift)
+
 
 @app.route("/output", methods=['POST', "GET"])
 def data_output():
@@ -63,3 +76,4 @@ def user_output(userID):
 if __name__ == '__main__':
     from waitress import serve
     serve(app, host="0.0.0.0", port=8080)
+    # app.run(host='127.0.0.1', port=8080, debug=True)
